@@ -16,26 +16,25 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/topics")
-public class TopicController{
+public class TopicController {
 
     private final TopicService topicService;
 
-    public TopicController(TopicService param_topicService){
+    public TopicController(TopicService param_topicService) {
         this.topicService = param_topicService;
     }
-    
-@PostMapping
-public TopicResponseDTO handle_createTopic(
-    @Valid 
-    @RequestBody 
-    CreateTopicRequestDTO inp_requestDTO){
-    return topicService.createTopic(inp_requestDTO);
-}
 
-@GetMapping
-public List<TopicResponseDTO> handle_fetAllTopics(){
-    return topicService.getAllTopics();
+    @PostMapping
+    public TopicResponseDTO handle_createTopic(
+            @Valid @RequestBody CreateTopicRequestDTO inp_requestDTO) {
 
-}
+        return topicService.createTopic(inp_requestDTO);
+    }
+
+    @GetMapping
+    public List<TopicResponseDTO> handle_fetAllTopics() {
+        return topicService.getAllTopics();
+
+    }
 
 }
