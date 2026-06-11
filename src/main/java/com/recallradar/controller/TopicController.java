@@ -13,6 +13,8 @@ import com.recallradar.dto.TopicResponseDTO;
 import com.recallradar.service.TopicService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/topics")
@@ -32,9 +34,10 @@ public class TopicController {
     }
 
     @GetMapping
-    public List<TopicResponseDTO> handle_fetAllTopics() {
-        return topicService.getAllTopics();
-
+    public List<TopicResponseDTO> handle_getTopics(){
+        return topicService.getTopics();
     }
+   
+    
 
 }
