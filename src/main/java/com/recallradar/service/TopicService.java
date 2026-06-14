@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.recallradar.dto.TopicResponseDTO;
 import com.recallradar.dto.updateTopicDescriptionRequestDTO;
 import com.recallradar.entity.Topic;
+import com.recallradar.exception.TopicNotFoundException;
 import com.recallradar.repository.TopicRepository;
 import com.recallradar.dto.CreateTopicRequestDTO;
 
@@ -48,7 +49,7 @@ public class TopicService {
     public List<TopicResponseDTO> getTopics() {
         List<Topic> all_topics = topicRepository.findAll();
         if (all_topics.isEmpty()) {
-            throw new RuntimeException("No Topics Found");
+            throw new TopicNotFoundException("No Topics Found");
         }
         List<TopicResponseDTO> all_topics_response_dtos = new ArrayList<>();
 
@@ -71,7 +72,7 @@ public class TopicService {
     public TopicResponseDTO getTopicById(Long id) {
         Optional<Topic> current_topic = topicRepository.findById(id);
         if (current_topic.isEmpty()) {
-            throw new RuntimeException("Topic Not Found for the provided Id");
+            throw new TopicNotFoundException("Topic Not Found for the provided Id");
         }
 
         Topic result_current_topic = current_topic.get();
@@ -87,7 +88,7 @@ public class TopicService {
     public TopicResponseDTO deleteTopic(Long id) {
         Optional<Topic> current_topic = topicRepository.findById(id);
         if (current_topic.isEmpty()) {
-            throw new RuntimeException("No topic found associated with Id:" + id);
+            throw new TopicNotFoundException("No topic found associated with Id:" + id);
         }
 
         Topic result_current_topic = current_topic.get();
@@ -107,7 +108,7 @@ public class TopicService {
         Optional<Topic> topicOptional = topicRepository.findById(requestDTO.getId());
 
         if(topicOptional.isEmpty()){
-            throw new RuntimeException("Topic doesn't exist to update the description");
+            throw new TopicNotFoundException("Topic doesn't exist to update the description");
         }
 
         Topic topic = topicOptional.get();
