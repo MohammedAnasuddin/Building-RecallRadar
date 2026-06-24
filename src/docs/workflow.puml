@@ -1,0 +1,49 @@
+@startuml
+
+!theme materia
+
+title RecallRadar Engineering Sprint Lifecycle
+
+start
+
+:Plan Sprint;
+
+:Review Requirements;
+
+:Review Existing Architecture;
+
+if (Architecture Change Needed?) then (Yes)
+
+    :Update Design Documents;
+
+    :Update Diagrams;
+
+endif
+
+:Define API Contracts;
+
+:Define Test Cases;
+
+:Implement Feature;
+
+:Run Feature Tests;
+
+:Run Regression Tests;
+
+if (Implementation Differs From Design?) then (Yes)
+
+    :Refactor Code OR;
+
+    :Update Architecture Design and Documents;
+
+endif
+
+:Update README;
+
+:Sprint Review;
+
+:Close Sprint;
+
+stop
+
+@enduml

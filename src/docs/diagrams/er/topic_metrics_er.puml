@@ -1,0 +1,21 @@
+@startuml
+
+!include ../theme.puml
+
+entity Topic {
+    * id
+}
+
+entity TopicMetrics {
+    * topicId
+    --
+    leakScore
+    retrievalStrength
+    storageStrength
+    illusionScore
+    revisionPriority
+}
+
+Topic ||--|| TopicMetrics : metrics
+
+@enduml

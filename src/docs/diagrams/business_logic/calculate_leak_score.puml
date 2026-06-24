@@ -1,0 +1,50 @@
+@startuml
+
+!include ../theme.puml
+
+title RecallRadar - Leak Score Calculation
+
+participant "RetentionScheduler"
+participant "LeakScoreService"
+participant "RevisionLogRepository"
+participant "TopicMetricsRepository"
+
+RetentionScheduler -> LeakScoreService : calculateScores()
+
+LeakScoreService -> RevisionLogRepository : fetchRevisionHistory()
+
+RevisionLogRepository --> LeakScoreService : Revision Logs
+
+LeakScoreService -> LeakScoreService : Calculate Leak Score
+
+LeakScoreService -> TopicMetricsRepository : saveMetrics()
+
+TopicMetricsRepository --> LeakScoreService : Saved
+
+note right
+
+Initial Formula (MVP)
+
+Leak Score =
+
+DaysSinceLastRevision
+× DifficultyWeight
+
+-
+RevisionCountBonus
+
+Where:
+
+Easy   = 1.0
+Medium = 1.5
+Hard   = 2.0
+
+RevisionCountBonus =
+TotalRevisions × 2
+
+Higher Score =
+Higher Risk Of Forgetting
+
+end note
+
+@enduml

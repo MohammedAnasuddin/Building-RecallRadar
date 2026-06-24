@@ -1,0 +1,14 @@
+@startuml
+
+!include ../theme.puml
+
+class User
+class Topic
+class RevisionLog
+class TopicMetrics
+
+User "1" --> "*" Topic
+Topic "1" --> "*" RevisionLog
+Topic "1" --> "1" TopicMetrics
+
+@enduml

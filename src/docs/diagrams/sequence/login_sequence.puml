@@ -1,0 +1,14 @@
+@startuml
+
+!include ../theme.puml
+
+actor User
+
+User -> AuthController : POST /auth/login
+AuthController -> AuthService : authenticate()
+AuthService -> UserRepository : findByEmail()
+UserRepository --> AuthService : User
+AuthService --> AuthController : JWT Token
+AuthController --> User : 200 OK
+
+@enduml

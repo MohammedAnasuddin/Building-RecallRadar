@@ -1,0 +1,104 @@
+@startuml
+
+!include ../theme.puml
+
+title RecallRadar - System Architecture
+
+actor User
+
+node "Frontend" {
+
+    component "React Application" as React
+
+}
+
+node "Backend" {
+
+    package "Security Layer" {
+
+        component "JWT Filter"
+        component "Spring Security"
+    }
+
+    package "API Layer" {
+
+        component "AuthController"
+        component "TopicController"
+        component "RevisionController"
+        component "AnalyticsController"
+    }
+
+    package "Business Layer" {
+
+        component "AuthService"
+        component "TopicService"
+        component "RevisionService"
+        component "AnalyticsService"
+        component "LeakScoreService"
+    }
+
+    package "Persistence Layer" {
+
+        component "UserRepository"
+        component "TopicRepository"
+        component "RevisionLogRepository"
+        component "TopicMetricsRepository"
+    }
+
+    package "Background Jobs" {
+
+        component "RetentionScheduler"
+    }
+
+    package "Analytics Engine" {
+
+        component "Leak Score Calculator"
+        component "Retention Calculator"
+        component "Priority Calculator"
+    }
+
+}
+
+database "PostgreSQL" as DB
+
+User --> React
+
+React --> "JWT Filter"
+
+"JWT Filter" --> "Spring Security"
+
+"Spring Security" --> AuthController
+"Spring Security" --> TopicController
+"Spring Security" --> RevisionController
+"Spring Security" --> AnalyticsController
+
+AuthController --> AuthService
+TopicController --> TopicService
+RevisionController --> RevisionService
+AnalyticsController --> AnalyticsService
+
+AuthService --> UserRepository
+
+TopicService --> TopicRepository
+
+RevisionService --> RevisionLogRepository
+RevisionService --> TopicRepository
+
+AnalyticsService --> TopicMetricsRepository
+AnalyticsService --> RevisionLogRepository
+
+UserRepository --> DB
+TopicRepository --> DB
+RevisionLogRepository --> DB
+TopicMetricsRepository --> DB
+
+RetentionScheduler --> "Leak Score Calculator"
+
+"Leak Score Calculator" --> RevisionLogRepository
+"Leak Score Calculator" --> TopicMetricsRepository
+
+"Retention Calculator" --> TopicMetricsRepository
+
+"Priority Calculator" --> TopicMetricsRepository
+
+@enduml

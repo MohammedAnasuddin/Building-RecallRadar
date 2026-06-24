@@ -1,0 +1,107 @@
+@startuml
+
+!include ../theme.puml
+
+package controller {
+
+    class AuthController
+    class TopicController
+    class RevisionController
+    class AnalyticsController
+}
+
+package service {
+
+    class AuthService
+    class TopicService
+    class RevisionService
+    class AnalyticsService
+    class LeakScoreService
+}
+
+package repository {
+
+    interface UserRepository
+    interface TopicRepository
+    interface RevisionLogRepository
+    interface TopicMetricsRepository
+}
+
+package entity {
+
+    class User
+    class Topic
+    class RevisionLog
+    class TopicMetrics
+}
+
+package dto {
+
+    package request {
+        class RegisterRequestDTO
+        class LoginRequestDTO
+        class CreateTopicRequestDTO
+        class UpdateTopicRequestDTO
+        class CreateRevisionRequestDTO
+    }
+
+    package response {
+        class TopicResponseDTO
+        class UserResponseDTO
+        class RevisionResponseDTO
+        class MetricsResponseDTO
+    }
+
+    package error {
+        class ErrorResponseDTO
+    }
+}
+
+package security {
+
+    class JwtService
+    class JwtFilter
+    class SecurityConfig
+    class CustomUserDetailsService
+}
+
+package analytics {
+
+    class LeakScoreCalculator
+    class RetentionCalculator
+    class RevisionPriorityCalculator
+}
+
+package scheduler {
+
+    class RetentionScheduler
+}
+
+package exception {
+
+    class GlobalExceptionHandler
+    class TopicNotFoundException
+    class UserNotFoundException
+    class RevisionNotFoundException
+}
+
+controller ..> service
+controller ..> dto
+
+service ..> repository
+service ..> dto
+service ..> entity
+
+repository ..> entity
+
+security ..> service
+security ..> repository
+
+analytics ..> entity
+
+scheduler ..> analytics
+
+controller ..> exception
+service ..> exception
+
+@enduml

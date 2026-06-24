@@ -1,0 +1,52 @@
+@startuml
+
+!include ../theme.puml
+
+entity User {
+    * id : Long
+    --
+    name : String
+    email : String
+    password : String
+    role : Role
+    createdAt : LocalDateTime
+}
+
+entity Topic {
+    * id : Long
+    --
+    name : String
+    description : String
+    difficulty : Difficulty
+    category : String
+    createdAt : LocalDateTime
+    user_id : Long
+}
+
+entity RevisionLog {
+    * id : Long
+    --
+    revisionDate : LocalDateTime
+    durationMinutes : Integer
+    revisionMethod : RevisionMethod
+    confidenceLevel : Integer
+    notes : String
+    topic_id : Long
+}
+
+entity TopicMetrics {
+    * topicId : Long
+    --
+    leakScore : Double
+    retrievalStrength : Double
+    storageStrength : Double
+    illusionScore : Double
+    revisionPriority : Integer
+    updatedAt : LocalDateTime
+}
+
+User ||--o{ Topic : owns
+Topic ||--o{ RevisionLog : contains
+Topic ||--|| TopicMetrics : metrics
+
+@enduml

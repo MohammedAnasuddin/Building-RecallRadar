@@ -1,0 +1,26 @@
+@startuml
+
+!include ../theme.puml
+
+title RecallRadar - JWT Request Flow
+
+actor User
+
+component "React App"
+component "JWT Filter"
+component "Spring Security"
+component "Controllers"
+
+database "PostgreSQL"
+
+User --> "React App"
+
+"React App" --> "JWT Filter"
+
+"JWT Filter" --> "Spring Security"
+
+"Spring Security" --> Controllers
+
+Controllers --> PostgreSQL
+
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+
+!include ../theme.puml
+
+actor User
+
+User -> TopicController : POST /topics
+activate TopicController
+
+TopicController -> TopicService : createTopic()
+activate TopicService
+
+TopicService -> TopicRepository : save()
+activate TopicRepository
+
+TopicRepository --> TopicService : Topic
+
+deactivate TopicRepository
+
+TopicService --> TopicController : TopicResponseDTO
+
+deactivate TopicService
+
+TopicController --> User : 201 Created
+
+deactivate TopicController
+
+@enduml

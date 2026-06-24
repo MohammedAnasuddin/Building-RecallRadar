@@ -1,0 +1,25 @@
+@startuml
+
+!include ../theme.puml
+
+entity User {
+    * id
+    --
+    name
+    email
+    password
+    role
+}
+
+entity Topic {
+    * id
+    --
+    name
+    description
+    difficulty
+    category
+}
+
+User ||--o{ Topic : owns
+
+@enduml

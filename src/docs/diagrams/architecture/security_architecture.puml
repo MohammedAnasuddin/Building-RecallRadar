@@ -1,0 +1,74 @@
+@startuml
+
+!include ../theme.puml
+
+title RecallRadar - Security Architecture
+
+actor User
+
+participant "React Client" as Client
+
+box "Spring Security"
+
+participant "JWT Filter" as JwtFilter
+participant "Security Context" as SecurityContext
+participant "CustomUserDetailsService" as UserDetailsService
+
+end box
+
+participant "AuthController"
+participant "AuthService"
+
+participant "UserRepository"
+
+== Registration ==
+
+User -> Client : Register
+
+Client -> AuthController : POST /auth/register
+
+AuthController -> AuthService : register()
+
+AuthService -> UserRepository : save(user)
+
+UserRepository --> AuthService : user
+
+AuthService --> AuthController : success
+
+AuthController --> Client : 201 Created
+
+== Login ==
+
+User -> Client : Login
+
+Client -> AuthController : POST /auth/login
+
+AuthController -> AuthService : authenticate()
+
+AuthService -> UserRepository : findByEmail()
+
+UserRepository --> AuthService : User
+
+AuthService --> AuthController : JWT Token
+
+AuthController --> Client : JWT Token
+
+== Protected Request ==
+
+Client -> JwtFilter : Request + JWT
+
+JwtFilter -> UserDetailsService : loadUser()
+
+UserDetailsService -> UserRepository : findByEmail()
+
+UserRepository --> UserDetailsService : User
+
+UserDetailsService --> JwtFilter : UserDetails
+
+JwtFilter -> SecurityContext : setAuthentication()
+
+SecurityContext --> JwtFilter : Authenticated
+
+JwtFilter --> Client : Request Allowed
+
+@enduml

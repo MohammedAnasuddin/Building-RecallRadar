@@ -1,0 +1,61 @@
+@startuml
+
+!include ../theme.puml
+
+title RecallRadar - Revision Lifecycle
+
+actor User
+
+participant "Topic"
+participant "RevisionService"
+participant "RevisionLog"
+participant "LeakScoreService"
+participant "TopicMetrics"
+participant "AnalyticsService"
+
+User -> Topic : Study Topic
+
+User -> RevisionService : Log Revision
+
+RevisionService -> RevisionLog : Create Revision Entry
+
+RevisionLog --> RevisionService : Saved
+
+RevisionService -> LeakScoreService : Recalculate Metrics
+
+LeakScoreService -> TopicMetrics : Update Scores
+
+TopicMetrics --> LeakScoreService : Saved
+
+LeakScoreService --> RevisionService : Updated
+
+RevisionService --> User : Revision Recorded
+
+User -> AnalyticsService : Request Due Topics
+
+AnalyticsService -> TopicMetrics : Evaluate Priorities
+
+TopicMetrics --> AnalyticsService : Scores
+
+AnalyticsService --> User : Due Topics List
+
+note right
+
+Business Rules
+
+1. Every revision creates
+   a RevisionLog.
+
+2. Revision history is never
+   overwritten.
+
+3. Metrics are derived from
+   RevisionLog data.
+
+4. Topics with higher leak
+   scores receive higher
+   revision priority.
+
+end note
+
+@enduml

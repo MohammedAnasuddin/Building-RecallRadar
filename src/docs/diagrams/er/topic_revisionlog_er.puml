@@ -1,0 +1,23 @@
+@startuml
+
+!include ../theme.puml
+
+entity Topic {
+    * id
+    --
+    name
+}
+
+entity RevisionLog {
+    * id
+    --
+    revisionDate
+    durationMinutes
+    revisionMethod
+    confidenceLevel
+    notes
+}
+
+Topic ||--o{ RevisionLog : contains
+
+@enduml

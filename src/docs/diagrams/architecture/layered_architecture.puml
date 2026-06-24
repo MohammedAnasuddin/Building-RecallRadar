@@ -1,0 +1,24 @@
+@startuml
+
+!include ../theme.puml
+
+rectangle "Controller Layer" {
+    class Controllers
+}
+
+rectangle "Service Layer" {
+    class Services
+}
+
+rectangle "Repository Layer" {
+    class Repositories
+}
+
+database "PostgreSQL" {
+}
+
+Controllers --> Services
+Services --> Repositories
+Repositories --> PostgreSQL
+
+@enduml

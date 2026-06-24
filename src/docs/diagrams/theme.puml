@@ -1,0 +1,29 @@
+' ===============================
+' RecallRadar Shared Theme
+' ===============================
+
+!theme materia
+
+hide circle
+skinparam linetype ortho
+skinparam shadowing false
+
+' Layout spacing
+skinparam nodesep 90
+skinparam ranksep 100
+
+' Typography
+skinparam defaultFontName Segoe UI
+skinparam defaultFontSize 14
+
+' Rounded boxes
+skinparam roundcorner 15
+
+' Entity styling
+skinparam entity {
+    BorderThickness 1
+    Padding 12
+}
+
+' Arrow styling
+skinparam ArrowThickness 1.5
