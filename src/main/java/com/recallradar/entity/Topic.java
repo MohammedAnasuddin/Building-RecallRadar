@@ -12,6 +12,10 @@ public class Topic {
     private String description;
     private String difficulty;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Topic(){}
 
     public long getId(){
